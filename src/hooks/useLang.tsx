@@ -12,8 +12,8 @@ type LangContextType = {
 const LangContext = createContext<LangContextType | undefined>(undefined);
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('pt');
-  const [currency, setCurrency] = useState<CurrencyCode>('CAD');
+  const [lang, setLangState] = useState<Lang>('en');
+  const [currency, setCurrency] = useState<CurrencyCode>('USD');
   const setLang = (nextLang: Lang) => {
     setLangState(nextLang);
     setCurrency(currencyByLang[nextLang].defaultCurrency);
