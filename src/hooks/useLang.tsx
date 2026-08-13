@@ -12,10 +12,18 @@ type LangContextType = {
 const LangContext = createContext<LangContextType | undefined>(undefined);
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('en');
+  // Começar com inglês, verificar localStorage
+  const [lang, setLangState] = useState<Lang>(() => {
+    if (typeof window === 'undefined') return 'en';
+    const saved = localStorage.getItem('dxt-lang');
+    return saved === 'pt' || saved === 'ru' || saved === 'fr' || saved === 'es' || saved === 'de' ? saved as Lang : 'en';
+  });
+  
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
+  
   const setLang = (nextLang: Lang) => {
     setLangState(nextLang);
+    localStorage.setItem('dxt-lang', nextLang);
     setCurrency(currencyByLang[nextLang].defaultCurrency);
   };
   const t = translations[lang];
